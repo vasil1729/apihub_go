@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  kitchensink.ResponseInspectionResponse:
+    properties:
+      format:
+        type: string
+      message:
+        type: string
+    type: object
   kitchensink.StatusCodeResponse:
     properties:
       code:
@@ -127,6 +134,42 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Inspect IP address
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/response/html:
+    get:
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: HTML Response
+          schema:
+            type: string
+      summary: Get HTML response
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/response/json:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kitchensink.ResponseInspectionResponse'
+      summary: Get JSON response
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/response/xml:
+    get:
+      produces:
+      - text/xml
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kitchensink.ResponseInspectionResponse'
+      summary: Get XML response
       tags:
       - Kitchen Sink
   /kitchen-sink/status/{code}:

@@ -136,6 +136,63 @@ const docTemplate = `{
                 }
             }
         },
+        "/kitchen-sink/response/html": {
+            "get": {
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get HTML response",
+                "responses": {
+                    "200": {
+                        "description": "HTML Response",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/response/json": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get JSON response",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/kitchensink.ResponseInspectionResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/response/xml": {
+            "get": {
+                "produces": [
+                    "text/xml"
+                ],
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get XML response",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/kitchensink.ResponseInspectionResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/kitchen-sink/status/{code}": {
             "get": {
                 "tags": [
@@ -1179,6 +1236,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "kitchensink.ResponseInspectionResponse": {
+            "type": "object",
+            "properties": {
+                "format": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "kitchensink.StatusCodeResponse": {
             "type": "object",
             "properties": {
