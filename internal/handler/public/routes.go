@@ -72,6 +72,13 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 	}
 	randomProductHandler := NewRandomProductHandler(randomProductService)
 	
+	// Initialize YouTube service and handler
+	youtubeService, err := publicService.NewYouTubeService(dataPath)
+	if err != nil {
+		return err
+	}
+	youtubeHandler := NewYouTubeHandler(youtubeService)
+	
 	// Random Users routes
 	randomUsers := router.Group("/randomusers")
 	{
@@ -141,6 +148,14 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 		randomProducts.GET("", randomProductHandler.GetAll)
 		randomProducts.GET("/random", randomProductHandler.GetRandom)
 		randomProducts.GET("/:id", randomProductHandler.GetByID)
+	}
+	
+	// YouTube routes
+	youtube := router.Group("/youtube")
+	{
+		youtube.GET("", youtubeHandler.GetAll)
+		youtube.GET("/random", youtubeHandler.GetRandom)
+		youtube.GET("/:id", youtubeHandler.GetByID)
 	}
 	
 	return nil

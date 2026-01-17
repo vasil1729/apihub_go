@@ -581,6 +581,53 @@ paths:
       summary: Get stock by symbol
       tags:
       - Public APIs
+  /public/youtube:
+    get:
+      parameters:
+      - default: 1
+        description: Page
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all YouTube videos
+      tags:
+      - Public APIs
+  /public/youtube/{id}:
+    get:
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get video by ID
+      tags:
+      - Public APIs
+  /public/youtube/random:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get random video
+      tags:
+      - Public APIs
 securityDefinitions:
   BearerAuth:
     description: Type "Bearer" followed by a space and JWT token.
