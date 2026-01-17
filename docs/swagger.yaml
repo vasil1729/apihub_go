@@ -52,6 +52,53 @@ info:
   title: FreeAPI - API Hub
   version: "1.0"
 paths:
+  /public/books:
+    get:
+      parameters:
+      - default: 1
+        description: Page
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all books
+      tags:
+      - Public APIs
+  /public/books/{id}:
+    get:
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get book by ID
+      tags:
+      - Public APIs
+  /public/books/random:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get random book
+      tags:
+      - Public APIs
   /public/cats:
     get:
       description: Get a paginated list of cat breeds
