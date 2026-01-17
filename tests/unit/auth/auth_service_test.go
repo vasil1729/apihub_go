@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 	authDomain "github.com/ultimatum/apihub_go/internal/domain/auth"
 	authServicePkg "github.com/ultimatum/apihub_go/internal/service/auth"
+	"github.com/ultimatum/apihub_go/pkg/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
 )
@@ -16,7 +17,7 @@ func TestAuthService_Register(t *testing.T) {
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 
 	mt.Run("Success", func(mt *mtest.T) {
-		service := authServicePkg.NewAuthService(mt.DB)
+		service := authServicePkg.NewAuthService(mt.DB, &config.Config{JWTSecret: "test"})
 		
 		// Mock FindOne -> No Documents (user doesn't exist) -> ErrNoDocuments
 		mt.AddMockResponses(mtest.CreateCursorResponse(0, "apihub.users", mtest.FirstBatch))
@@ -38,7 +39,7 @@ func TestAuthService_Register(t *testing.T) {
 	})
 
 	mt.Run("User Already Exists", func(mt *mtest.T) {
-		service := authServicePkg.NewAuthService(mt.DB)
+		service := authServicePkg.NewAuthService(mt.DB, &config.Config{JWTSecret: "test"})
 
 		// Mock FindOne -> Success (user exists)
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "apihub.users", mtest.FirstBatch, bson.D{

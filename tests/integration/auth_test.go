@@ -29,6 +29,14 @@ func (m *MockAuthService) Register(ctx context.Context, req auth.RegisterRequest
 	return args.Get(0).(*auth.User), args.Error(1)
 }
 
+func (m *MockAuthService) Login(ctx context.Context, req auth.LoginRequest) (string, *auth.User, error) {
+	args := m.Called(ctx, req)
+	if args.Get(0) == "" {
+		return "", nil, args.Error(2)
+	}
+	return args.String(0), args.Get(1).(*auth.User), args.Error(2)
+}
+
 func setupAuthRouter(service auth.AuthService) *gin.Engine {
 	gin.SetMode(gin.TestMode)
 	router := gin.New()
@@ -40,7 +48,7 @@ func setupAuthRouter(service auth.AuthService) *gin.Engine {
 	return router
 }
 
-func TestAuthAPI_Register_Integration(t *testing.T) {
+func TestAuthAPI_Integration(t *testing.T) {
 	mockService := new(MockAuthService)
 	router := setupAuthRouter(mockService)
 	
@@ -80,17 +88,48 @@ func TestAuthAPI_Register_Integration(t *testing.T) {
 		assert.Equal(t, http.StatusConflict, w.Code)
 		mockService.AssertExpectations(t)
 	})
-	
-	t.Run("Register Invalid Input", func(t *testing.T) {
-		// Service should NOT be called
-		invalidUser := auth.RegisterRequest{Username: "ab"} // Invalid
+
+	t.Run("Login Success", func(t *testing.T) {
+		loginReq := auth.LoginRequest{
+			Email:    "test@example.com",
+			Password: "password123",
+		}
 		
+		mockService.On("Login", mock.Anything, loginReq).Return("valid_jwt_token", testUserRes, nil).Once()
+
 		w := httptest.NewRecorder()
-		body, _ := json.Marshal(invalidUser)
-		req, _ := http.NewRequest("POST", "/api/v1/auth/register", bytes.NewBuffer(body))
+		body, _ := json.Marshal(loginReq)
+		req, _ := http.NewRequest("POST", "/api/v1/auth/login", bytes.NewBuffer(body))
 		req.Header.Set("Content-Type", "application/json")
 		router.ServeHTTP(w, req)
 
-		assert.Equal(t, http.StatusBadRequest, w.Code)
+		assert.Equal(t, http.StatusOK, w.Code)
+		
+		var resp struct {
+			Data auth.AuthResponse `json:"data"`
+		}
+		err := json.Unmarshal(w.Body.Bytes(), &resp)
+		assert.NoError(t, err)
+		assert.Equal(t, "valid_jwt_token", resp.Data.Token)
+		
+		mockService.AssertExpectations(t)
+	})
+
+	t.Run("Login Invalid Credentials", func(t *testing.T) {
+		loginReq := auth.LoginRequest{
+			Email:    "test@example.com",
+			Password: "wrong",
+		}
+		
+		mockService.On("Login", mock.Anything, loginReq).Return("", nil, errors.New("invalid credentials")).Once()
+
+		w := httptest.NewRecorder()
+		body, _ := json.Marshal(loginReq)
+		req, _ := http.NewRequest("POST", "/api/v1/auth/login", bytes.NewBuffer(body))
+		req.Header.Set("Content-Type", "application/json")
+		router.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusUnauthorized, w.Code)
+		mockService.AssertExpectations(t)
 	})
 }

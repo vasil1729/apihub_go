@@ -12,8 +12,9 @@ type Config struct {
 	// Server
 	Port   string
 	Env    string
-	HostURL string
+	HostURL  string
 	DataPath string
+	JWTSecret string
 
 	// Database
 	MongoDBURI string
@@ -74,8 +75,9 @@ func Load() (*Config, error) {
 	cfg := &Config{
 		Port:    getEnv("PORT", "8080"),
 		Env:     getEnv("NODE_ENV", "development"),
-		HostURL: getEnv("FREEAPI_HOST_URL", "http://localhost:8080"),
+		HostURL:  getEnv("FREEAPI_HOST_URL", "http://localhost:8080"),
 		DataPath: getEnv("DATA_PATH", "./data"),
+		JWTSecret: getEnv("JWT_SECRET", "super-secret-key-change-me"),
 
 		MongoDBURI: getEnv("MONGODB_URI", "mongodb://localhost:27017/apihub_go"),
 		DBName:     getEnv("DB_NAME", "apihub_go"),

@@ -118,7 +118,7 @@ func main() {
 	}
 
 	// Auth APIs
-	authService := authServicePkg.NewAuthService(db)
+	authService := authServicePkg.NewAuthService(db, cfg)
 	authHandler := authHandlerPkg.NewAuthHandler(authService)
 	authHandlerPkg.SetupAuthRoutes(v1.Group("/auth"), authHandler)
 
