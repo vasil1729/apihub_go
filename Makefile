@@ -46,8 +46,8 @@ lint: ## Run linter
 
 swagger: ## Generate Swagger documentation
 	@echo "Generating Swagger docs..."
-	@swag init -g $(MAIN_PATH)/main.go -o ./api/swagger
-	@echo "Swagger docs generated in ./api/swagger"
+	@swag init -g $(MAIN_PATH)/main.go -o ./docs
+	@echo "Swagger docs generated in ./docs"
 
 docker-up: ## Start Docker containers
 	@echo "Starting Docker containers..."
@@ -65,7 +65,7 @@ clean: ## Clean build artifacts
 	@echo "Cleaning..."
 	@rm -rf bin/
 	@rm -rf $(COVERAGE_FILE) coverage.html
-	@rm -rf api/swagger/docs.go api/swagger/swagger.json api/swagger/swagger.yaml
+	@rm -rf docs/
 	@echo "Clean complete"
 
 deps: ## Download dependencies

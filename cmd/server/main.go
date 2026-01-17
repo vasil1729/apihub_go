@@ -12,12 +12,16 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	publicHandler "github.com/ultimatum/apihub_go/internal/handler/public"
 	"github.com/ultimatum/apihub_go/internal/middleware"
 	"github.com/ultimatum/apihub_go/pkg/config"
 	"github.com/ultimatum/apihub_go/pkg/database"
 	"github.com/ultimatum/apihub_go/pkg/logger"
 	"github.com/ultimatum/apihub_go/pkg/response"
+	
+	_ "github.com/ultimatum/apihub_go/docs" // Import generated docs
 )
 
 // @title FreeAPI - API Hub
@@ -107,7 +111,12 @@ func main() {
 	// TODO: Add more route groups (auth, todo, ecommerce, etc.)
 
 	// Swagger documentation
-	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	
+	// Root redirect to Swagger
+	router.GET("/", func(c *gin.Context) {
+		c.Redirect(302, "/swagger/index.html")
+	})
 
 	// 404 handler
 	router.NoRoute(func(c *gin.Context) {

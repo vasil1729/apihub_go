@@ -1,0 +1,193 @@
+basePath: /api/v1
+definitions:
+  response.PaginatedResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      pagination:
+        $ref: '#/definitions/response.Pagination'
+      statusCode:
+        type: integer
+      success:
+        type: boolean
+    type: object
+  response.Pagination:
+    properties:
+      hasNext:
+        type: boolean
+      hasPrev:
+        type: boolean
+      limit:
+        type: integer
+      page:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      statusCode:
+        type: integer
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@apihub.com
+    name: API Support
+    url: https://github.com/ultimatum/apihub_go
+  description: A comprehensive API hub with multiple API categories for learning and
+    development
+  license:
+    name: ISC
+    url: https://opensource.org/licenses/ISC
+  termsOfService: http://swagger.io/terms/
+  title: FreeAPI - API Hub
+  version: "1.0"
+paths:
+  /public/randomjokes:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of random jokes
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all random jokes
+      tags:
+      - Public APIs
+  /public/randomjokes/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific random joke by its ID
+      parameters:
+      - description: Joke ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get random joke by ID
+      tags:
+      - Public APIs
+  /public/randomjokes/random:
+    get:
+      consumes:
+      - application/json
+      description: Get a randomly selected joke
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get a random joke
+      tags:
+      - Public APIs
+  /public/randomusers:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of random users
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all random users
+      tags:
+      - Public APIs
+  /public/randomusers/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific random user by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get random user by ID
+      tags:
+      - Public APIs
+  /public/randomusers/random:
+    get:
+      consumes:
+      - application/json
+      description: Get a randomly selected user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get a random user
+      tags:
+      - Public APIs
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
