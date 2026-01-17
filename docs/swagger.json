@@ -203,6 +203,102 @@
                 }
             }
         },
+        "/kitchen-sink/redirects/301": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Trigger a 301 Moved Permanently redirect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "URL to redirect to",
+                        "name": "url",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "301": {
+                        "description": "Redirecting...",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/redirects/302": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Trigger a 302 Found redirect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "URL to redirect to",
+                        "name": "url",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirecting...",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/redirects/307": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Trigger a 307 Temporary Redirect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "URL to redirect to",
+                        "name": "url",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "307": {
+                        "description": "Redirecting...",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/redirects/308": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Trigger a 308 Permanent Redirect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "URL to redirect to",
+                        "name": "url",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "308": {
+                        "description": "Redirecting...",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/kitchen-sink/response/html": {
             "get": {
                 "produces": [

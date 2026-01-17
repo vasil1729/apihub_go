@@ -26,6 +26,10 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 	// Initialize Cookies service and handler
 	cookiesService := kitchenSinkService.NewCookiesService()
 	cookiesHandler := NewCookiesHandler(cookiesService)
+	
+	// Initialize Redirects service and handler
+	redirectsService := kitchenSinkService.NewRedirectsService()
+	redirectsHandler := NewRedirectsHandler(redirectsService)
 
 	httpMethods := router.Group("/http-methods")
 	{
@@ -60,6 +64,15 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 		cookiesGroup.GET("/get", cookiesHandler.GetCookies)
 		cookiesGroup.GET("/set", cookiesHandler.SetCookie)
 		cookiesGroup.GET("/delete", cookiesHandler.DeleteCookie)
+	}
+
+	// Redirects endpoints
+	redirectsGroup := router.Group("/redirects")
+	{
+		redirectsGroup.GET("/301", redirectsHandler.Redirect301)
+		redirectsGroup.GET("/302", redirectsHandler.Redirect302)
+		redirectsGroup.GET("/307", redirectsHandler.Redirect307)
+		redirectsGroup.GET("/308", redirectsHandler.Redirect308)
 	}
 	
 	return nil

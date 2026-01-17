@@ -183,6 +183,66 @@ paths:
       summary: Inspect IP address
       tags:
       - Kitchen Sink
+  /kitchen-sink/redirects/301:
+    get:
+      parameters:
+      - description: URL to redirect to
+        in: query
+        name: url
+        type: string
+      responses:
+        "301":
+          description: Redirecting...
+          schema:
+            type: string
+      summary: Trigger a 301 Moved Permanently redirect
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/redirects/302:
+    get:
+      parameters:
+      - description: URL to redirect to
+        in: query
+        name: url
+        type: string
+      responses:
+        "302":
+          description: Redirecting...
+          schema:
+            type: string
+      summary: Trigger a 302 Found redirect
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/redirects/307:
+    get:
+      parameters:
+      - description: URL to redirect to
+        in: query
+        name: url
+        type: string
+      responses:
+        "307":
+          description: Redirecting...
+          schema:
+            type: string
+      summary: Trigger a 307 Temporary Redirect
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/redirects/308:
+    get:
+      parameters:
+      - description: URL to redirect to
+        in: query
+        name: url
+        type: string
+      responses:
+        "308":
+          description: Redirecting...
+          schema:
+            type: string
+      summary: Trigger a 308 Permanent Redirect
+      tags:
+      - Kitchen Sink
   /kitchen-sink/response/html:
     get:
       produces:
