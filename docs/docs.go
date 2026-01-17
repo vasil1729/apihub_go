@@ -24,6 +24,22 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/kitchen-sink/headers": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Inspect Headers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/kitchen-sink/http-methods/delete": {
             "delete": {
                 "tags": [
@@ -94,6 +110,22 @@ const docTemplate = `{
                     "Kitchen Sink"
                 ],
                 "summary": "Test PUT method",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/ip": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Inspect IP address",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -244,6 +276,22 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/user-agent": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Inspect User Agent",
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }

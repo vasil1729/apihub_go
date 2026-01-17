@@ -59,6 +59,16 @@ info:
   title: FreeAPI - API Hub
   version: "1.0"
 paths:
+  /kitchen-sink/headers:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Inspect Headers
+      tags:
+      - Kitchen Sink
   /kitchen-sink/http-methods/delete:
     delete:
       responses:
@@ -107,6 +117,16 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Test PUT method
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/ip:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Inspect IP address
       tags:
       - Kitchen Sink
   /kitchen-sink/status/{code}:
@@ -203,6 +223,16 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Return response with specified status code
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/user-agent:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Inspect User Agent
       tags:
       - Kitchen Sink
   /public/books:

@@ -15,6 +15,10 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 	statusCodesService := kitchenSinkService.NewStatusCodesService()
 	statusCodesHandler := NewStatusCodesHandler(statusCodesService)
 
+	// Initialize Request Inspection service and handler
+	reqInspectionService := kitchenSinkService.NewRequestInspectionService()
+	reqInspectionHandler := NewRequestInspectionHandler(reqInspectionService)
+
 	httpMethods := router.Group("/http-methods")
 	{
 		httpMethods.GET("/get", httpMethodsHandler.HandleGet)
@@ -28,6 +32,11 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 	{
 		statusCodes.Any("/:code", statusCodesHandler.HandleStatus)
 	}
+	
+	// Request Inspection endpoints
+	router.GET("/ip", reqInspectionHandler.GetIP)
+	router.GET("/user-agent", reqInspectionHandler.GetUserAgent)
+	router.GET("/headers", reqInspectionHandler.GetHeaders)
 	
 	return nil
 }
