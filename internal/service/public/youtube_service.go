@@ -10,6 +10,20 @@ import (
 	"github.com/ultimatum/apihub_go/internal/domain/public"
 )
 
+type rawYouTubeData struct {
+	ChannelVideos []struct {
+		Items struct {
+			ID      string `json:"id"`
+			Snippet struct {
+				PublishedAt  string `json:"publishedAt"`
+				ChannelTitle string `json:"channelTitle"`
+				Title        string `json:"title"`
+				Description  string `json:"description"`
+			} `json:"snippet"`
+		} `json:"items"`
+	} `json:"channelVideos"`
+}
+
 type YouTubeService struct {
 	videos []public.YouTubeVideo
 	rand   *rand.Rand
@@ -30,9 +44,23 @@ func (s *YouTubeService) loadVideos(dataPath string) error {
 	if err != nil {
 		return fmt.Errorf("failed to read videos.json: %w", err)
 	}
-	if err := json.Unmarshal(data, &s.videos); err != nil {
+	
+	var rawData rawYouTubeData
+	if err := json.Unmarshal(data, &rawData); err != nil {
 		return fmt.Errorf("failed to parse videos.json: %w", err)
 	}
+	
+	// Transform raw data to simplified video structure
+	for i, item := range rawData.ChannelVideos {
+		s.videos = append(s.videos, public.YouTubeVideo{
+			ID:           i + 1, // Use index as ID since original uses string IDs
+			Title:        item.Items.Snippet.Title,
+			Description:  item.Items.Snippet.Description,
+			ChannelTitle: item.Items.Snippet.ChannelTitle,
+			PublishedAt:  item.Items.Snippet.PublishedAt,
+		})
+	}
+	
 	return nil
 }
 

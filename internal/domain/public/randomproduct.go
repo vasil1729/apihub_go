@@ -6,9 +6,8 @@ type RandomProduct struct {
 	Price       float64 `json:"price"`
 	Description string  `json:"description"`
 	Category    string  `json:"category"`
-	Image       string  `json:"image"`
-	Rating      struct {
-		Rate  float64 `json:"rate"`
-		Count int     `json:"count"`
-	} `json:"rating"`
+	Image       string  `json:"thumbnail"`
+	Rating      float64 `json:"rating"`
+	Brand       string  `json:"brand"`
+	Stock       int     `json:"stock"`
 }
