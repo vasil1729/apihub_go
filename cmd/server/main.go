@@ -12,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	publicHandler "github.com/ultimatum/apihub_go/internal/handler/public"
 	"github.com/ultimatum/apihub_go/internal/middleware"
 	"github.com/ultimatum/apihub_go/pkg/config"
 	"github.com/ultimatum/apihub_go/pkg/database"
@@ -94,8 +95,16 @@ func main() {
 		})
 	})
 
-	// API routes will be added here
-	// TODO: Add route groups for different API categories
+	// API v1 routes
+	v1 := router.Group("/api/v1")
+	
+	// Public APIs
+	publicRoutes := v1.Group("/public")
+	if err := publicHandler.SetupPublicRoutes(publicRoutes, "./data"); err != nil {
+		logger.Fatal("Failed to setup public routes", err)
+	}
+	
+	// TODO: Add more route groups (auth, todo, ecommerce, etc.)
 
 	// Swagger documentation
 	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
