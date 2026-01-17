@@ -193,6 +193,82 @@ const docTemplate = `{
                 }
             }
         },
+        "/kitchen-sink/images/jpeg": {
+            "get": {
+                "produces": [
+                    "image/jpeg"
+                ],
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get a generated JPEG image",
+                "responses": {
+                    "200": {
+                        "description": "JPEG Image",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/images/png": {
+            "get": {
+                "produces": [
+                    "image/png"
+                ],
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get a generated PNG image",
+                "responses": {
+                    "200": {
+                        "description": "PNG Image",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/images/svg": {
+            "get": {
+                "produces": [
+                    "image/svg+xml"
+                ],
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get a generated SVG image",
+                "responses": {
+                    "200": {
+                        "description": "SVG Image",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/images/webp": {
+            "get": {
+                "produces": [
+                    "image/webp"
+                ],
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get a static WebP image",
+                "responses": {
+                    "200": {
+                        "description": "WebP Image",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/kitchen-sink/ip": {
             "get": {
                 "tags": [

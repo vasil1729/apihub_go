@@ -173,6 +173,54 @@ paths:
       summary: Test PUT method
       tags:
       - Kitchen Sink
+  /kitchen-sink/images/jpeg:
+    get:
+      produces:
+      - image/jpeg
+      responses:
+        "200":
+          description: JPEG Image
+          schema:
+            type: string
+      summary: Get a generated JPEG image
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/images/png:
+    get:
+      produces:
+      - image/png
+      responses:
+        "200":
+          description: PNG Image
+          schema:
+            type: string
+      summary: Get a generated PNG image
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/images/svg:
+    get:
+      produces:
+      - image/svg+xml
+      responses:
+        "200":
+          description: SVG Image
+          schema:
+            type: string
+      summary: Get a generated SVG image
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/images/webp:
+    get:
+      produces:
+      - image/webp
+      responses:
+        "200":
+          description: WebP Image
+          schema:
+            type: string
+      summary: Get a static WebP image
+      tags:
+      - Kitchen Sink
   /kitchen-sink/ip:
     get:
       responses:

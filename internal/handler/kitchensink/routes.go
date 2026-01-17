@@ -30,6 +30,10 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 	// Initialize Redirects service and handler
 	redirectsService := kitchenSinkService.NewRedirectsService()
 	redirectsHandler := NewRedirectsHandler(redirectsService)
+	
+	// Initialize Images service and handler
+	imagesService := kitchenSinkService.NewImagesService()
+	imagesHandler := NewImagesHandler(imagesService)
 
 	httpMethods := router.Group("/http-methods")
 	{
@@ -73,6 +77,15 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 		redirectsGroup.GET("/302", redirectsHandler.Redirect302)
 		redirectsGroup.GET("/307", redirectsHandler.Redirect307)
 		redirectsGroup.GET("/308", redirectsHandler.Redirect308)
+	}
+	
+	// Images endpoints
+	imagesGroup := router.Group("/images")
+	{
+		imagesGroup.GET("/jpeg", imagesHandler.GetJPEG)
+		imagesGroup.GET("/png", imagesHandler.GetPNG)
+		imagesGroup.GET("/svg", imagesHandler.GetSVG)
+		imagesGroup.GET("/webp", imagesHandler.GetWebP)
 	}
 	
 	return nil
