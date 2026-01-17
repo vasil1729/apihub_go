@@ -6,6 +6,9 @@ cd /home/ultimatum/projects_experiments/free_api/apihub_go
 echo "Copying complete randomuser data..."
 cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomuser.json data/randomuser.json
 
+echo "Copying complete randomjoke data..."
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomjoke.json data/randomjoke.json
+
 echo "Running go mod tidy..."
 go mod tidy
 
