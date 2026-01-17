@@ -15,6 +15,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	publicHandler "github.com/ultimatum/apihub_go/internal/handler/public"
+	kitchenSinkHandler "github.com/ultimatum/apihub_go/internal/handler/kitchensink"
 	"github.com/ultimatum/apihub_go/internal/middleware"
 	"github.com/ultimatum/apihub_go/pkg/config"
 	"github.com/ultimatum/apihub_go/pkg/database"
@@ -104,11 +105,15 @@ func main() {
 	
 	// Public APIs
 	publicRoutes := v1.Group("/public")
-	if err := publicHandler.SetupPublicRoutes(publicRoutes, "./data"); err != nil {
-		logger.Fatal("Failed to setup public routes", err)
+	if err := publicHandler.SetupPublicRoutes(publicRoutes, cfg.DataPath); err != nil {
+		log.Fatalf("Failed to setup public routes: %v", err)
 	}
-	
-	// TODO: Add more route groups (auth, todo, ecommerce, etc.)
+
+	// Kitchen Sink APIs
+	kitchenSinkRoutes := v1.Group("/kitchen-sink")
+	if err := kitchenSinkHandler.SetupKitchenSinkRoutes(kitchenSinkRoutes); err != nil {
+		log.Fatalf("Failed to setup kitchen sink routes: %v", err)
+	}
 
 	// Swagger documentation
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

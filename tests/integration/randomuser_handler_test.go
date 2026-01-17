@@ -6,26 +6,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	publicHandler "github.com/ultimatum/apihub_go/internal/handler/public"
 	"github.com/ultimatum/apihub_go/pkg/response"
 )
 
-func setupTestRouter() *gin.Engine {
-	gin.SetMode(gin.TestMode)
-	router := gin.New()
-	
-	// Setup public routes
-	v1 := router.Group("/api/v1")
-	publicRoutes := v1.Group("/public")
-	err := publicHandler.SetupPublicRoutes(publicRoutes, "../../data")
-	if err != nil {
-		panic(err)
-	}
-	
-	return router
-}
 
 func TestRandomUsersAPI_Integration(t *testing.T) {
 	router := setupTestRouter()

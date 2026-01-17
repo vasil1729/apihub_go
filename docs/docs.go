@@ -24,6 +24,86 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/kitchen-sink/http-methods/delete": {
+            "delete": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Test DELETE method",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/http-methods/get": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Test GET method",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/http-methods/patch": {
+            "patch": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Test PATCH method",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/http-methods/post": {
+            "post": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Test POST method",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/http-methods/put": {
+            "put": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Test PUT method",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/public/books": {
             "get": {
                 "tags": [
