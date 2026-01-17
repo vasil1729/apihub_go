@@ -37,6 +37,13 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 	}
 	stockHandler := NewStockHandler(stockService)
 	
+	// Initialize meal service and handler
+	mealService, err := publicService.NewMealService(dataPath)
+	if err != nil {
+		return err
+	}
+	mealHandler := NewMealHandler(mealService)
+	
 	// Random Users routes
 	randomUsers := router.Group("/randomusers")
 	{
@@ -66,6 +73,14 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 	{
 		stocks.GET("", stockHandler.GetAll)
 		stocks.GET("/:symbol", stockHandler.GetBySymbol)
+	}
+	
+	// Meals routes
+	meals := router.Group("/meals")
+	{
+		meals.GET("", mealHandler.GetAll)
+		meals.GET("/random", mealHandler.GetRandom)
+		meals.GET("/:id", mealHandler.GetByID)
 	}
 	
 	return nil

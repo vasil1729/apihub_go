@@ -15,6 +15,9 @@ cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/quotes.json dat
 echo "Copying complete NSE stocks data..."
 cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/nse-stocks.json data/nse-stocks.json
 
+echo "Copying complete meals data..."
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/meals.json data/meals.json
+
 echo "Running go mod tidy..."
 go mod tidy
 
