@@ -11,6 +11,10 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 	httpMethodsService := kitchenSinkService.NewHTTPMethodsService()
 	httpMethodsHandler := NewHTTPMethodsHandler(httpMethodsService)
 	
+	// Initialize Status Codes service and handler
+	statusCodesService := kitchenSinkService.NewStatusCodesService()
+	statusCodesHandler := NewStatusCodesHandler(statusCodesService)
+
 	httpMethods := router.Group("/http-methods")
 	{
 		httpMethods.GET("/get", httpMethodsHandler.HandleGet)
@@ -18,6 +22,11 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 		httpMethods.PUT("/put", httpMethodsHandler.HandlePut)
 		httpMethods.PATCH("/patch", httpMethodsHandler.HandlePatch)
 		httpMethods.DELETE("/delete", httpMethodsHandler.HandleDelete)
+	}
+
+	statusCodes := router.Group("/status")
+	{
+		statusCodes.Any("/:code", statusCodesHandler.HandleStatus)
 	}
 	
 	return nil

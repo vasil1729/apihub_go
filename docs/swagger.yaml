@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  kitchensink.StatusCodeResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
   response.PaginatedResponse:
     properties:
       data: {}
@@ -100,6 +107,102 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: Test PUT method
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/status/{code}:
+    delete:
+      parameters:
+      - description: HTTP Status Code
+        in: path
+        name: code
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kitchensink.StatusCodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Return response with specified status code
+      tags:
+      - Kitchen Sink
+    get:
+      parameters:
+      - description: HTTP Status Code
+        in: path
+        name: code
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kitchensink.StatusCodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Return response with specified status code
+      tags:
+      - Kitchen Sink
+    patch:
+      parameters:
+      - description: HTTP Status Code
+        in: path
+        name: code
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kitchensink.StatusCodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Return response with specified status code
+      tags:
+      - Kitchen Sink
+    post:
+      parameters:
+      - description: HTTP Status Code
+        in: path
+        name: code
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kitchensink.StatusCodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Return response with specified status code
+      tags:
+      - Kitchen Sink
+    put:
+      parameters:
+      - description: HTTP Status Code
+        in: path
+        name: code
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kitchensink.StatusCodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Return response with specified status code
       tags:
       - Kitchen Sink
   /public/books:

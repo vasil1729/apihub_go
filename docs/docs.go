@@ -104,6 +104,153 @@ const docTemplate = `{
                 }
             }
         },
+        "/kitchen-sink/status/{code}": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Return response with specified status code",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HTTP Status Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/kitchensink.StatusCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Return response with specified status code",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HTTP Status Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/kitchensink.StatusCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Return response with specified status code",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HTTP Status Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/kitchensink.StatusCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Return response with specified status code",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HTTP Status Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/kitchensink.StatusCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Return response with specified status code",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "HTTP Status Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/kitchensink.StatusCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/public/books": {
             "get": {
                 "tags": [
@@ -984,6 +1131,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "kitchensink.StatusCodeResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "response.PaginatedResponse": {
             "type": "object",
             "properties": {
