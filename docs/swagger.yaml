@@ -250,6 +250,57 @@ paths:
       summary: Get a random user
       tags:
       - Public APIs
+  /public/stocks:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of NSE stocks
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all stocks
+      tags:
+      - Public APIs
+  /public/stocks/{symbol}:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific stock by its symbol (e.g., TCS, RELIANCE)
+      parameters:
+      - description: Stock Symbol
+        in: path
+        name: symbol
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get stock by symbol
+      tags:
+      - Public APIs
 securityDefinitions:
   BearerAuth:
     description: Type "Bearer" followed by a space and JWT token.
