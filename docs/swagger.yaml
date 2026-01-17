@@ -66,6 +66,53 @@ info:
   title: FreeAPI - API Hub
   version: "1.0"
 paths:
+  /kitchen-sink/cookies/delete:
+    get:
+      parameters:
+      - description: Cookie Key
+        in: query
+        name: key
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete a cookie
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/cookies/get:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get all cookies
+      tags:
+      - Kitchen Sink
+  /kitchen-sink/cookies/set:
+    get:
+      parameters:
+      - description: Cookie Key
+        in: query
+        name: key
+        required: true
+        type: string
+      - description: Cookie Value
+        in: query
+        name: value
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Set a cookie
+      tags:
+      - Kitchen Sink
   /kitchen-sink/headers:
     get:
       responses:

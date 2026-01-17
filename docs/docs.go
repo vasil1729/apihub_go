@@ -24,6 +24,79 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/kitchen-sink/cookies/delete": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Delete a cookie",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cookie Key",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/cookies/get": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Get all cookies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/kitchen-sink/cookies/set": {
+            "get": {
+                "tags": [
+                    "Kitchen Sink"
+                ],
+                "summary": "Set a cookie",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cookie Key",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cookie Value",
+                        "name": "value",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/kitchen-sink/headers": {
             "get": {
                 "tags": [

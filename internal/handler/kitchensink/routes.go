@@ -22,6 +22,10 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 	// Initialize Response Inspection service and handler
 	respInspectionService := kitchenSinkService.NewResponseInspectionService()
 	respInspectionHandler := NewResponseInspectionHandler(respInspectionService)
+	
+	// Initialize Cookies service and handler
+	cookiesService := kitchenSinkService.NewCookiesService()
+	cookiesHandler := NewCookiesHandler(cookiesService)
 
 	httpMethods := router.Group("/http-methods")
 	{
@@ -48,6 +52,14 @@ func SetupKitchenSinkRoutes(router *gin.RouterGroup) error {
 		responseGroup.GET("/json", respInspectionHandler.GetJSON)
 		responseGroup.GET("/xml", respInspectionHandler.GetXML)
 		responseGroup.GET("/html", respInspectionHandler.GetHTML)
+	}
+	
+	// Cookies endpoints
+	cookiesGroup := router.Group("/cookies")
+	{
+		cookiesGroup.GET("/get", cookiesHandler.GetCookies)
+		cookiesGroup.GET("/set", cookiesHandler.SetCookie)
+		cookiesGroup.GET("/delete", cookiesHandler.DeleteCookie)
 	}
 	
 	return nil
