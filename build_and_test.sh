@@ -3,20 +3,13 @@ set -e
 
 cd /home/ultimatum/projects_experiments/free_api/apihub_go
 
-echo "Copying complete randomuser data..."
-cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomuser.json data/randomuser.json
-
-echo "Copying complete randomjoke data..."
-cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomjoke.json data/randomjoke.json
-
-echo "Copying complete quotes data..."
-cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/quotes.json data/quotes.json
-
-echo "Copying complete NSE stocks data..."
-cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/nse-stocks.json data/nse-stocks.json
-
-echo "Copying complete meals data..."
-cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/meals.json data/meals.json
+echo "Copying data files..."
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomuser.json data/
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomjoke.json data/
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/quotes.json data/
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/nse-stocks.json data/
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/meals.json data/
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/dogs.json data/
 
 echo "Running go mod tidy..."
 go mod tidy

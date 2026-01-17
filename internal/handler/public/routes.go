@@ -44,6 +44,13 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 	}
 	mealHandler := NewMealHandler(mealService)
 	
+	// Initialize dog service and handler
+	dogService, err := publicService.NewDogService(dataPath)
+	if err != nil {
+		return err
+	}
+	dogHandler := NewDogHandler(dogService)
+	
 	// Random Users routes
 	randomUsers := router.Group("/randomusers")
 	{
@@ -81,6 +88,14 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 		meals.GET("", mealHandler.GetAll)
 		meals.GET("/random", mealHandler.GetRandom)
 		meals.GET("/:id", mealHandler.GetByID)
+	}
+	
+	// Dogs routes
+	dogs := router.Group("/dogs")
+	{
+		dogs.GET("", dogHandler.GetAll)
+		dogs.GET("/random", dogHandler.GetRandom)
+		dogs.GET("/:id", dogHandler.GetByID)
 	}
 	
 	return nil

@@ -52,6 +52,72 @@ info:
   title: FreeAPI - API Hub
   version: "1.0"
 paths:
+  /public/dogs:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of dog breeds
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all dog breeds
+      tags:
+      - Public APIs
+  /public/dogs/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific dog breed by its ID
+      parameters:
+      - description: Dog ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get dog breed by ID
+      tags:
+      - Public APIs
+  /public/dogs/random:
+    get:
+      consumes:
+      - application/json
+      description: Get a randomly selected dog breed
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get a random dog breed
+      tags:
+      - Public APIs
   /public/meals:
     get:
       consumes:
