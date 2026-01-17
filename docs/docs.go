@@ -24,6 +24,88 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/public/cats": {
+            "get": {
+                "description": "Get a paginated list of cat breeds",
+                "tags": [
+                    "Public APIs"
+                ],
+                "summary": "Get all cat breeds",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Items per page",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.PaginatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/cats/random": {
+            "get": {
+                "description": "Get a randomly selected cat breed",
+                "tags": [
+                    "Public APIs"
+                ],
+                "summary": "Get a random cat breed",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/cats/{id}": {
+            "get": {
+                "description": "Get a specific cat breed by its ID",
+                "tags": [
+                    "Public APIs"
+                ],
+                "summary": "Get cat breed by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Cat ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/public/dogs": {
             "get": {
                 "description": "Get a paginated list of dog breeds",

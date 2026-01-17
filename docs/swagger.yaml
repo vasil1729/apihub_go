@@ -52,6 +52,60 @@ info:
   title: FreeAPI - API Hub
   version: "1.0"
 paths:
+  /public/cats:
+    get:
+      description: Get a paginated list of cat breeds
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all cat breeds
+      tags:
+      - Public APIs
+  /public/cats/{id}:
+    get:
+      description: Get a specific cat breed by its ID
+      parameters:
+      - description: Cat ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get cat breed by ID
+      tags:
+      - Public APIs
+  /public/cats/random:
+    get:
+      description: Get a randomly selected cat breed
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get a random cat breed
+      tags:
+      - Public APIs
   /public/dogs:
     get:
       consumes:
