@@ -14,6 +14,16 @@ func setupTestRouter() *gin.Engine {
 	
 	// Setup public routes
 	publicRoutes := v1.Group("/public")
+	// Note: We might need a dummy DB connection for public routes if they used it?
+	// Public routes currently don't use DB in their handler constructor in main.go (wait, main.go passes services).
+	// But `SetupPublicRoutes` in `internal/handler/public/routes.go` creates handlers internally?
+	// Let's check `public/routes.go`.
+	// Actually `setupTestRouter` currently calls `publicHandler.SetupPublicRoutes`.
+	// If public handlers need services that need DB, `SetupPublicRoutes` might be creating them?
+	// `SetupPublicRoutes` in `routes.go` instantiates minimal services?
+	// Let's look at `setup_test.go` again.
+	// It calls `publicHandler.SetupPublicRoutes(publicRoutes, "../../data")`.
+	
 	err := publicHandler.SetupPublicRoutes(publicRoutes, "../../data")
 	if err != nil {
 		panic(err)
@@ -25,6 +35,6 @@ func setupTestRouter() *gin.Engine {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	return router
 }

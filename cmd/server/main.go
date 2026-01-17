@@ -16,6 +16,8 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	publicHandler "github.com/ultimatum/apihub_go/internal/handler/public"
 	kitchenSinkHandler "github.com/ultimatum/apihub_go/internal/handler/kitchensink"
+	authHandlerPkg "github.com/ultimatum/apihub_go/internal/handler/auth"
+	authServicePkg "github.com/ultimatum/apihub_go/internal/service/auth"
 	"github.com/ultimatum/apihub_go/internal/middleware"
 	"github.com/ultimatum/apihub_go/pkg/config"
 	"github.com/ultimatum/apihub_go/pkg/database"
@@ -114,6 +116,11 @@ func main() {
 	if err := kitchenSinkHandler.SetupKitchenSinkRoutes(kitchenSinkRoutes); err != nil {
 		log.Fatalf("Failed to setup kitchen sink routes: %v", err)
 	}
+
+	// Auth APIs
+	authService := authServicePkg.NewAuthService(db)
+	authHandler := authHandlerPkg.NewAuthHandler(authService)
+	authHandlerPkg.SetupAuthRoutes(v1.Group("/auth"), authHandler)
 
 	// Swagger documentation
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

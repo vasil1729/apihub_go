@@ -1,5 +1,41 @@
 basePath: /api/v1
 definitions:
+  auth.AuthResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/auth.User'
+    type: object
+  auth.RegisterRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      username:
+        maxLength: 32
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  auth.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
   kitchensink.ResponseInspectionResponse:
     properties:
       format:
@@ -66,6 +102,40 @@ info:
   title: FreeAPI - API Hub
   version: "1.0"
 paths:
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Registration Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/auth.AuthResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Register a new user
+      tags:
+      - Authentication
   /kitchen-sink/cookies/delete:
     get:
       parameters:
