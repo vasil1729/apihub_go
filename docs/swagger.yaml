@@ -417,6 +417,53 @@ paths:
       summary: Get a random joke
       tags:
       - Public APIs
+  /public/randomproducts:
+    get:
+      parameters:
+      - default: 1
+        description: Page
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all products
+      tags:
+      - Public APIs
+  /public/randomproducts/{id}:
+    get:
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get product by ID
+      tags:
+      - Public APIs
+  /public/randomproducts/random:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get random product
+      tags:
+      - Public APIs
   /public/randomusers:
     get:
       consumes:

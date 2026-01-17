@@ -65,6 +65,13 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 	}
 	bookHandler := NewBookHandler(bookService)
 	
+	// Initialize random product service and handler
+	randomProductService, err := publicService.NewRandomProductService(dataPath)
+	if err != nil {
+		return err
+	}
+	randomProductHandler := NewRandomProductHandler(randomProductService)
+	
 	// Random Users routes
 	randomUsers := router.Group("/randomusers")
 	{
@@ -126,6 +133,14 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 		books.GET("", bookHandler.GetAll)
 		books.GET("/random", bookHandler.GetRandom)
 		books.GET("/:id", bookHandler.GetByID)
+	}
+	
+	// Random Products routes
+	randomProducts := router.Group("/randomproducts")
+	{
+		randomProducts.GET("", randomProductHandler.GetAll)
+		randomProducts.GET("/random", randomProductHandler.GetRandom)
+		randomProducts.GET("/:id", randomProductHandler.GetByID)
 	}
 	
 	return nil
