@@ -132,4 +132,13 @@ func TestAuthAPI_Integration(t *testing.T) {
 		assert.Equal(t, http.StatusUnauthorized, w.Code)
 		mockService.AssertExpectations(t)
 	})
+
+	t.Run("Logout Success", func(t *testing.T) {
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest("POST", "/api/v1/auth/logout", nil)
+		router.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+		assert.Contains(t, w.Body.String(), "Logged out successfully")
+	})
 }

@@ -93,3 +93,15 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 	response.OK(c, "Login successful", resp)
 }
+
+// @Summary Logout user
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Router /auth/logout [post]
+func (h *AuthHandler) Logout(c *gin.Context) {
+	// In a stateless JWT setup, logout is handled client-side by deleting the token.
+	// Server-side, we could blacklist the token if we had Redis, but for now just return success.
+	response.OK(c, "Logged out successfully", nil)
+}
