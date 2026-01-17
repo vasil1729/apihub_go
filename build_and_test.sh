@@ -9,11 +9,15 @@ cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomuser.json
 echo "Copying complete randomjoke data..."
 cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/randomjoke.json data/randomjoke.json
 
+echo "Copying complete quotes data..."
+cp /home/ultimatum/projects_experiments/free_api/apihub/src/json/quotes.json data/quotes.json
+
 echo "Running go mod tidy..."
 go mod tidy
 
 echo "Running tests..."
 go test ./tests/unit/... -v
+go test ./tests/integration/... -v
 
 echo "Building application..."
 mkdir -p bin

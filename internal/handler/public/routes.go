@@ -23,6 +23,13 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 	}
 	randomJokeHandler := NewRandomJokeHandler(randomJokeService)
 	
+	// Initialize quote service and handler
+	quoteService, err := publicService.NewQuoteService(dataPath)
+	if err != nil {
+		return err
+	}
+	quoteHandler := NewQuoteHandler(quoteService)
+	
 	// Random Users routes
 	randomUsers := router.Group("/randomusers")
 	{
@@ -37,6 +44,14 @@ func SetupPublicRoutes(router *gin.RouterGroup, dataPath string) error {
 		randomJokes.GET("", randomJokeHandler.GetAll)
 		randomJokes.GET("/random", randomJokeHandler.GetRandom)
 		randomJokes.GET("/:id", randomJokeHandler.GetByID)
+	}
+	
+	// Quotes routes
+	quotes := router.Group("/quotes")
+	{
+		quotes.GET("", quoteHandler.GetAll)
+		quotes.GET("/random", quoteHandler.GetRandom)
+		quotes.GET("/:id", quoteHandler.GetByID)
 	}
 	
 	return nil

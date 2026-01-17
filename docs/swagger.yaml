@@ -52,6 +52,72 @@ info:
   title: FreeAPI - API Hub
   version: "1.0"
 paths:
+  /public/quotes:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of quotes
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PaginatedResponse'
+      summary: Get all quotes
+      tags:
+      - Public APIs
+  /public/quotes/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific quote by its ID
+      parameters:
+      - description: Quote ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get quote by ID
+      tags:
+      - Public APIs
+  /public/quotes/random:
+    get:
+      consumes:
+      - application/json
+      description: Get a randomly selected quote
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get a random quote
+      tags:
+      - Public APIs
   /public/randomjokes:
     get:
       consumes:
