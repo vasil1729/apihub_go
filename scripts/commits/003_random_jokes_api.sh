@@ -7,7 +7,7 @@ cd /home/ultimatum/projects_experiments/free_api/apihub_go
 git add .
 
 # Create commit
-git commit -m "feat(public): add Random Jokes API with tests and curl script
+COMMIT_MSG="feat(public): add Random Jokes API with tests and curl script
 
 - Add RandomJoke domain model with categories support
 - Implement RandomJokeService with true random selection
@@ -22,6 +22,11 @@ git commit -m "feat(public): add Random Jokes API with tests and curl script
 Tests: 6 test suites, 20 test cases, all passing
 API Endpoints: 6 endpoints total (3 new for jokes)"
 
+git commit -m "$COMMIT_MSG"
+
+# Get commit hash
+COMMIT_HASH=$(git rev-parse --short HEAD)
+
 echo "Commit created successfully!"
-git log --oneline -2
-git show --stat
+echo "Commit: 003_random_jokes_api_${COMMIT_HASH}"
+git log --oneline -3

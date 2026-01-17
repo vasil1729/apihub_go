@@ -7,7 +7,7 @@ cd /home/ultimatum/projects_experiments/free_api/apihub_go
 git add .
 
 # Create initial commit
-git commit -m "chore: initial project setup with core infrastructure
+COMMIT_MSG="chore: initial project setup with core infrastructure
 
 - Initialize Go module and Git repository
 - Set up Clean Architecture directory structure
@@ -23,5 +23,11 @@ git commit -m "chore: initial project setup with core infrastructure
 - Add comprehensive README and LICENSE
 - Install all required dependencies"
 
-echo "Initial commit created successfully!"
+git commit -m "$COMMIT_MSG"
+
+# Get commit hash
+COMMIT_HASH=$(git rev-parse --short HEAD)
+
+echo "Commit created successfully!"
+echo "Commit: 001_initial_setup_${COMMIT_HASH}"
 git log --oneline -1
