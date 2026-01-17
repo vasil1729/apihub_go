@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: apihub_go_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: apihub_go
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - apihub_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: apihub_go_app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://mongodb:27017/apihub_go
+      - DB_NAME=apihub_go
+      - ACCESS_TOKEN_SECRET=your-super-secret-access-token-change-this
+      - REFRESH_TOKEN_SECRET=your-super-secret-refresh-token-change-this
+      - CORS_ORIGIN=*
+      - LOG_LEVEL=debug
+      - LOG_FORMAT=json
+    depends_on:
+      - mongodb
+    volumes:
+      - ./public:/root/public
+      - ./data:/root/data
+    networks:
+      - apihub_network
+
+volumes:
+  mongodb_data:
+
+
+networks:
+  apihub_network:
+    driver: bridge
