@@ -29,12 +29,17 @@ func (m *MockAuthService) Register(ctx context.Context, req auth.RegisterRequest
 	return args.Get(0).(*auth.User), args.Error(1)
 }
 
-func (m *MockAuthService) Login(ctx context.Context, req auth.LoginRequest) (string, *auth.User, error) {
+func (m *MockAuthService) Login(ctx context.Context, req auth.LoginRequest) (string, string, *auth.User, error) {
 	args := m.Called(ctx, req)
 	if args.Get(0) == "" {
-		return "", nil, args.Error(2)
+		return "", "", nil, args.Error(3)
 	}
-	return args.String(0), args.Get(1).(*auth.User), args.Error(2)
+	return args.String(0), args.String(1), args.Get(2).(*auth.User), args.Error(3)
+}
+
+func (m *MockAuthService) RefreshToken(ctx context.Context, req auth.RefreshTokenRequest) (string, error) {
+	args := m.Called(ctx, req)
+	return args.String(0), args.Error(1)
 }
 
 func setupAuthRouter(service auth.AuthService) *gin.Engine {
@@ -95,7 +100,7 @@ func TestAuthAPI_Integration(t *testing.T) {
 			Password: "password123",
 		}
 		
-		mockService.On("Login", mock.Anything, loginReq).Return("valid_jwt_token", testUserRes, nil).Once()
+		mockService.On("Login", mock.Anything, loginReq).Return("access_token", "refresh_token", testUserRes, nil).Once()
 
 		w := httptest.NewRecorder()
 		body, _ := json.Marshal(loginReq)
@@ -110,7 +115,8 @@ func TestAuthAPI_Integration(t *testing.T) {
 		}
 		err := json.Unmarshal(w.Body.Bytes(), &resp)
 		assert.NoError(t, err)
-		assert.Equal(t, "valid_jwt_token", resp.Data.Token)
+		assert.Equal(t, "access_token", resp.Data.AccessToken)
+		assert.Equal(t, "refresh_token", resp.Data.RefreshToken)
 		
 		mockService.AssertExpectations(t)
 	})
@@ -121,7 +127,7 @@ func TestAuthAPI_Integration(t *testing.T) {
 			Password: "wrong",
 		}
 		
-		mockService.On("Login", mock.Anything, loginReq).Return("", nil, errors.New("invalid credentials")).Once()
+		mockService.On("Login", mock.Anything, loginReq).Return("", "", nil, errors.New("invalid credentials")).Once()
 
 		w := httptest.NewRecorder()
 		body, _ := json.Marshal(loginReq)

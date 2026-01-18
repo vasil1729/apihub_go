@@ -82,9 +82,9 @@ func Load() (*Config, error) {
 		MongoDBURI: getEnv("MONGODB_URI", "mongodb://localhost:27017/apihub_go"),
 		DBName:     getEnv("DB_NAME", "apihub_go"),
 
-		AccessTokenSecret:  getEnv("ACCESS_TOKEN_SECRET", ""),
-		AccessTokenExpiry:  getEnv("ACCESS_TOKEN_EXPIRY", "1d"),
-		RefreshTokenSecret: getEnv("REFRESH_TOKEN_SECRET", ""),
+		AccessTokenSecret:  getEnv("ACCESS_TOKEN_SECRET", "access-secret-key"),
+		AccessTokenExpiry:  getEnv("ACCESS_TOKEN_EXPIRY", "15m"),
+		RefreshTokenSecret: getEnv("REFRESH_TOKEN_SECRET", "refresh-secret-key"),
 		RefreshTokenExpiry: getEnv("REFRESH_TOKEN_EXPIRY", "10d"),
 
 		CORSOrigin: strings.Split(getEnv("CORS_ORIGIN", "*"), ","),

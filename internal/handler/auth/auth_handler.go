@@ -50,8 +50,9 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	// Previous implementation: Token: "jwt_token_placeholder".
 	
 	resp := auth.AuthResponse{
-		Token: "", // Client should login after register, or we fix Register to login.
-		User:  *user,
+		AccessToken:  "", // Client should login after register
+		RefreshToken: "",
+		User:         *user,
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
@@ -76,7 +77,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	token, user, err := h.service.Login(c.Request.Context(), req)
+	accessToken, refreshToken, user, err := h.service.Login(c.Request.Context(), req)
 	if err != nil {
 		if err.Error() == "invalid credentials" {
 			response.Unauthorized(c, "Invalid email or password")
@@ -87,11 +88,36 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	}
 
 	resp := auth.AuthResponse{
-		Token: token,
-		User:  *user,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		User:         *user,
 	}
 
 	response.OK(c, "Login successful", resp)
+}
+
+// @Summary Refresh access token
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param request body auth.RefreshTokenRequest true "Refresh Token Request"
+// @Success 200 {object} response.Response{data=string}
+// @Failure 401 {object} response.Response
+// @Router /auth/refresh [post]
+func (h *AuthHandler) RefreshToken(c *gin.Context) {
+	var req auth.RefreshTokenRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.BadRequest(c, err.Error())
+		return
+	}
+
+	accessToken, err := h.service.RefreshToken(c.Request.Context(), req)
+	if err != nil {
+		response.Unauthorized(c, err.Error())
+		return
+	}
+
+	response.OK(c, "Token refreshed successfully", gin.H{"accessToken": accessToken})
 }
 
 // @Summary Logout user

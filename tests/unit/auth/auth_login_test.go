@@ -30,11 +30,12 @@ func TestAuthService_Login(t *testing.T) {
 		hashedPwd, _ := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.DefaultCost)
 		
 		// Mock FindOne -> Return User
+		userID := primitive.NewObjectID()
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "apihub.users", mtest.FirstBatch, bson.D{
 			{Key: "username", Value: "testuser"},
 			{Key: "email", Value: "test@example.com"},
 			{Key: "password", Value: string(hashedPwd)},
-			{Key: "_id", Value: primitive.NewObjectID()}, // Need ID for token generation
+			{Key: "_id", Value: userID}, 
 		}))
 
 		req := authDomain.LoginRequest{
@@ -42,9 +43,10 @@ func TestAuthService_Login(t *testing.T) {
 			Password: "password123",
 		}
 
-		token, user, err := service.Login(context.Background(), req)
+		accessToken, refreshToken, user, err := service.Login(context.Background(), req)
 		assert.NoError(mt, err)
-		assert.NotEmpty(mt, token)
+		assert.NotEmpty(mt, accessToken)
+		assert.NotEmpty(mt, refreshToken)
 		require.NotNil(mt, user)
 		assert.Equal(mt, "testuser", user.Username)
 	})
@@ -66,9 +68,10 @@ func TestAuthService_Login(t *testing.T) {
 			Password: "wrongpassword",
 		}
 
-		token, user, err := service.Login(context.Background(), req)
+		accessToken, refreshToken, user, err := service.Login(context.Background(), req)
 		assert.Error(mt, err)
-		assert.Empty(mt, token)
+		assert.Empty(mt, accessToken)
+		assert.Empty(mt, refreshToken)
 		assert.Nil(mt, user)
 		assert.Equal(mt, "invalid credentials", err.Error())
 	})
@@ -84,10 +87,15 @@ func TestAuthService_Login(t *testing.T) {
 			Password: "password123",
 		}
 
-		token, user, err := service.Login(context.Background(), req)
+		accessToken, refreshToken, user, err := service.Login(context.Background(), req)
 		assert.Error(mt, err)
-		assert.Empty(mt, token)
+		assert.Empty(mt, accessToken)
+		assert.Empty(mt, refreshToken)
 		assert.Nil(mt, user)
 		assert.Equal(mt, "invalid credentials", err.Error())
 	})
+
+	// Refresh Token Tests (placeholder as mocking JWT verification logic purely via mtest is tricky if logic inside service parses token using secret)
+	// Actually, RefreshToken method parses the passed token.
+	// We can generate a valid token using the same config secret in the test.
 }

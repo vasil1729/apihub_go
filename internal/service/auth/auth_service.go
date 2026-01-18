@@ -71,38 +71,101 @@ func (s *AuthService) Register(ctx context.Context, req auth.RegisterRequest) (*
 	return &user, nil
 }
 
-func (s *AuthService) Login(ctx context.Context, req auth.LoginRequest) (string, *auth.User, error) {
+func (s *AuthService) Login(ctx context.Context, req auth.LoginRequest) (string, string, *auth.User, error) {
 	var user auth.User
 	err := s.collection.FindOne(ctx, bson.M{"email": req.Email}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return "", nil, errors.New("invalid credentials")
+			return "", "", nil, errors.New("invalid credentials")
 		}
-		return "", nil, err
+		return "", "", nil, err
 	}
 
 	// Verify password
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		return "", nil, errors.New("invalid credentials")
+		return "", "", nil, errors.New("invalid credentials")
 	}
 
-	// Generate JWT
-	token, err := s.generateToken(&user)
+	// Generate Tokens
+	accessToken, err := s.generateAccessToken(&user)
 	if err != nil {
-		return "", nil, err
+		return "", "", nil, err
+	}
+	
+	refreshToken, err := s.generateRefreshToken(&user)
+	if err != nil {
+		return "", "", nil, err
 	}
 
-	return token, &user, nil
+	return accessToken, refreshToken, &user, nil
 }
 
-func (s *AuthService) generateToken(user *auth.User) (string, error) {
+func (s *AuthService) RefreshToken(ctx context.Context, req auth.RefreshTokenRequest) (string, error) {
+	// Parse token
+	token, err := jwt.Parse(req.RefreshToken, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("unexpected signing method")
+		}
+		return []byte(s.config.RefreshTokenSecret), nil
+	})
+
+	if err != nil || !token.Valid {
+		return "", errors.New("invalid refresh token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return "", errors.New("invalid token claims")
+	}
+
+	// Extract User ID
+	sub, err := claims.GetSubject()
+	if err != nil {
+		return "", errors.New("invalid token subject")
+	}
+	
+	userID, err := primitive.ObjectIDFromHex(sub)
+	if err != nil {
+		return "", errors.New("invalid user id in token")
+	}
+
+	// Verify user exists (optional but recommended)
+	var user auth.User
+	err = s.collection.FindOne(ctx, bson.M{"_id": userID}).Decode(&user)
+	if err != nil {
+		return "", errors.New("user not found")
+	}
+
+	// Generate new access token
+	accessToken, err := s.generateAccessToken(&user)
+	if err != nil {
+		return "", err
+	}
+
+	return accessToken, nil
+}
+
+func (s *AuthService) generateAccessToken(user *auth.User) (string, error) {
 	claims := jwt.MapClaims{
 		"sub": user.ID.Hex(),
-		"exp": time.Now().Add(24 * time.Hour).Unix(),
+		"exp": time.Now().Add(15 * time.Minute).Unix(), // Short expiry
 		"iat": time.Now().Unix(),
+		"type": "access",
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(s.config.JWTSecret))
+	return token.SignedString([]byte(s.config.AccessTokenSecret))
+}
+
+func (s *AuthService) generateRefreshToken(user *auth.User) (string, error) {
+	claims := jwt.MapClaims{
+		"sub": user.ID.Hex(),
+		"exp": time.Now().Add(7 * 24 * time.Hour).Unix(), // Long expiry
+		"iat": time.Now().Unix(),
+		"type": "refresh",
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(s.config.RefreshTokenSecret))
 }
